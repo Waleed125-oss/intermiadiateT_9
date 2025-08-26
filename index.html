@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Astra — Product Landing Page</title>
+  <style>
+    :root{
+      --bg:#0f1724; --surface:#0b1220; --card:#0f1724;
+      --muted:#94a3b8; --accent:#6d28d9; --accent-2:#4f46e5;
+      --glass: rgba(255,255,255,0.04);
+      --radius:14px; --shadow: 0 12px 36px rgba(2,6,23,0.6);
+      --maxw:1120px;
+      --text:#e6eef8;
+    }
+    /* Light theme tokens */
+    body.light {
+      --bg:#f7fafc; --surface:#ffffff; --card:#ffffff; --muted:#556477; --accent:#2563eb; --accent-2:#1e40af; --text:#0b1220; --glass:rgba(2,6,23,0.03); --shadow: 0 10px 30px rgba(12,20,40,0.06);
+    }
+
+    *{box-sizing:border-box;margin:0;padding:0}
+    html,body{height:100%}
+    body{
+      font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial;
+      background:var(--bg); color:var(--text); -webkit-font-smoothing:antialiased;
+      line-height:1.5; transition: background .25s,color .25s;
+    }
+    a{color:inherit;text-decoration:none}
+    img{max-width:100%;display:block;border-radius:8px}
+
+    .container{width:92%;max-width:var(--maxw);margin:0 auto}
+
+    /* Header / Nav */
+    header{position:sticky;top:0;z-index:50;background:linear-gradient(180deg,transparent,var(--glass));backdrop-filter:blur(6px);border-bottom:1px solid rgba(255,255,255,0.03)}
+    .nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;color:var(--accent)}
+    .brand .logo{width:44px;height:44px;border-radius:10px;background:linear-gradient(135deg,var(--accent),var(--accent-2))}
+    nav.primary{display:flex;gap:18px;align-items:center}
+    nav.primary a{color:var(--text);padding:8px;border-radius:8px;font-weight:600;opacity:.95}
+    nav.primary a:hover{background:var(--glass)}
+    .controls{display:flex;gap:10px;align-items:center}
+    .hamburger{display:none;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.03);cursor:pointer;color:var(--text)}
+
+    /* Hero */
+    .hero{display:grid;grid-template-columns:1fr 420px;gap:28px;align-items:center;padding:56px 0}
+    .kicker{display:inline-block;background:linear-gradient(90deg,var(--accent),var(--accent-2));padding:.35rem .7rem;border-radius:999px;color:white;font-weight:700;margin-bottom:14px}
+    h1{font-size:2.1rem;line-height:1.02;margin-bottom:12px}
+    .tagline{color:var(--muted);margin-bottom:18px}
+    .hero-ctas{display:flex;gap:12px;flex-wrap:wrap}
+    .btn{background:linear-gradient(90deg,var(--accent),var(--accent-2));color:#fff;border:0;padding:.8rem 1.1rem;border-radius:10px;font-weight:700;cursor:pointer;box-shadow:var(--shadow);transition:transform .18s}
+    .btn.secondary{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--text)}
+    .btn:hover{transform:translateY(-3px)}
+    .hero-visual{background:linear-gradient(180deg,rgba(255,255,255,0.02),transparent);padding:16px;border-radius:14px;box-shadow:var(--shadow)}
+    .hero-visual img{height:340px;object-fit:cover;border-radius:10px}
+
+    /* Features */
+    .features{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:28px}
+    .feature{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s}
+    .feature:hover{transform:translateY(-8px);box-shadow:0 20px 40px rgba(0,0,0,0.25)}
+    .feature h4{margin-top:10px}
+    .feature p{color:var(--muted);margin-top:8px;font-size:.95rem}
+
+    /* Testimonials */
+    .testimonials{display:grid;grid-template-columns:1fr 320px;gap:18px;align-items:start}
+    .card{background:var(--card);padding:18px;border-radius:12px;box-shadow:var(--shadow)}
+    .review{margin-bottom:12px}
+    .review p{color:var(--muted)}
+
+    /* Pricing */
+    .pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:18px}
+    .plan{padding:18px;border-radius:12px;background:var(--card);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:12px;transition:transform .2s}
+    .plan.recommended{border:2px solid rgba(255,255,255,0.06);transform:scale(1.03)}
+    .price{font-size:1.5rem;font-weight:800;color:var(--accent)}
+
+    /* Newsletter */
+    .newsletter{display:flex;gap:8px;align-items:center;margin-top:18px}
+    .newsletter input{flex:1;padding:.8rem;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text)}
+    .note{color:var(--muted);font-size:.95rem;margin-top:8px}
+
+    /* Contact */
+    .contact-grid{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
+    form input, form textarea{width:100%;padding:.8rem;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--text);margin-bottom:10px}
+    .form-status{color:var(--accent);font-weight:700}
+
+    /* Footer */
+    footer{padding:28px 0;margin-top:28px;color:var(--muted);text-align:center}
+
+    /* Modal */
+    .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;z-index:120;opacity:0;pointer-events:none;transition:opacity .18s}
+    .modal-backdrop.open{opacity:1;pointer-events:auto}
+    .modal{background:var(--card);padding:20px;border-radius:12px;max-width:600px;width:94%;box-shadow:var(--shadow)}
+
+    /* Utilities */
+    .muted{color:var(--muted)}
+    .grid-gap{height:18px}
+
+    /* animations */
+    .reveal{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease}
+    .reveal.show{opacity:1;transform:translateY(0)}
+
+    /* responsive */
+    @media(max-width:1100px){
+      .hero{grid-template-columns:1fr 360px}
+      .features{grid-template-columns:repeat(2,1fr)}
+      .pricing-grid{grid-template-columns:repeat(2,1fr)}
+      .testimonials{grid-template-columns:1fr}
+    }
+    @media(max-width:800px){
+      nav.primary{display:none}
+      .hamburger{display:inline-flex}
+      .hero{grid-template-columns:1fr; text-align:center}
+      .hero-visual img{height:260px}
+      .features{grid-template-columns:1fr}
+      .pricing-grid{grid-template-columns:1fr}
+      .contact-grid{grid-template-columns:1fr}
+      .testimonials{grid-template-columns:1fr}
+    }
+    @media(max-width:420px){
+      h1{font-size:1.5rem}
+      .hero-visual img{height:200px}
+      .brand span{font-size:.95rem}
+    }
+  </style>
+</head>
+<body class="light">
+  <!-- Header -->
+  <header>
+    <div class="container nav">
+      <div class="brand">
+        <div class="logo" aria-hidden="true"></div>
+        <div>
+          <div style="font-weight:800">Astra</div>
+          <div style="font-size:.85rem;color:var(--muted)">Product analytics</div>
+        </div>
+      </div>
+      <nav class="primary" aria-label="Main navigation">
+        <a href="#hero">Home</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </nav>
+
+      <div class="controls">
+        <button id="themeToggle" title="Toggle theme" class="hamburger" aria-label="Toggle theme">🌙</button>
+        <button id="menuBtn" class="hamburger" aria-label="Open menu">☰</button>
+      </div>
+    </div>
+
+    <!-- mobile nav -->
+    <div id="mobileNav" style="display:none;background:var(--card);border-top:1px solid rgba(255,255,255,0.03)">
+      <div class="container" style="padding:12px 0;display:flex;flex-direction:column;gap:8px">
+        <a href="#hero">Home</a>
+        <a href="#features">Features</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#testimonials">Testimonials</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero -->
+  <main class="container">
+    <section id="hero" class="hero">
+      <div>
+        <span class="kicker">New • Free 14-day trial</span>
+        <h1>Astra — Delightful product analytics for your team</h1>
+        <p class="tagline muted">Capture events, analyze funnels, and run experiments — fast. Designed for engineers and product teams who want actionable insights without the complexity.</p>
+
+        <div class="hero-ctas">
+          <button class="btn" id="ctaTrial">Start Free Trial</button>
+          <button class="btn secondary" id="ctaDemo">Request Demo</button>
+        </div>
+
+        <div class="grid-gap"></div>
+
+        <div id="newsletter" class="newsletter">
+          <input id="newsletterEmail" type="email" placeholder="Enter your email" aria-label="Newsletter email">
+          <button class="btn" id="subscribeBtn">Subscribe</button>
+        </div>
+        <div class="note muted" id="newsletterNote">No spam — unsubscribe anytime.</div>
+      </div>
+
+      <aside class="hero-visual">
+        <img src="./images/Screenshot (47).png" alt="Product screenshot" />
+      </aside>
+    </section>
+
+    <!-- Features -->
+    <section id="features" class="reveal">
+      <h2>Key features</h2>
+      <p class="muted" style="text-align:center;margin-top:8px">Everything you need to measure product success.</p>
+      <div class="features">
+        <div class="feature">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M12 2v20" stroke="white" stroke-width="1.6" stroke-linecap="round"/></svg>
+          <h4>Realtime dashboards</h4>
+          <p>See user activity as it happens with low-latency dashboards.</p>
+        </div>
+        <div class="feature">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="8" stroke="white" stroke-width="1.6"/></svg>
+          <h4>Funnels & cohorts</h4>
+          <p>Identify drop-offs and compare segments with ease.</p>
+        </div>
+        <div class="feature">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="4" stroke="white" stroke-width="1.6"/></svg>
+          <h4>Feature flags</h4>
+          <p>Roll out features to specific users and measure impact.</p>
+        </div>
+        <div class="feature">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none"><path d="M3 12h18" stroke="white" stroke-width="1.6"/></svg>
+          <h4>Integrations</h4>
+          <p>Connect with your stack: web, mobile, and server SDKs supported.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials + CTA -->
+    <section id="testimonials" class="reveal">
+      <h2>What customers say</h2>
+      <div class="testimonials">
+        <div class="card">
+          <div class="review">
+            <strong>— Alice Johnson, PM</strong>
+            <p class="muted">"Astra helped us cut experiment cycle time by 3x. Setup was painless and dashboards are clear."</p>
+          </div>
+          <div class="review">
+            <strong>— Marcus Lee, Head of Analytics</strong>
+            <p class="muted">"Realtime funnels enabled us to detect a regression before it reached production."</p>
+          </div>
+          <div class="review">
+            <strong>— Priya K., CTO</strong>
+            <p class="muted">"Feature flags + analytics combo is a game changer for safe rollouts."</p>
+          </div>
+        </div>
+
+        <aside class="card">
+          <h3>Try Astra for free</h3>
+          <p class="muted">14-day trial. No credit card required.</p>
+          <div style="margin-top:12px">
+            <button class="btn" id="trialBtn2">Start Trial</button>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <!-- Pricing -->
+    <section id="pricing" class="reveal">
+      <h2>Pricing</h2>
+      <p class="muted" style="text-align:center;margin-top:8px">Simple pricing for teams of every size.</p>
+      <div class="pricing-grid">
+        <div class="plan">
+          <h4>Starter</h4>
+          <div class="price">$0 <span class="muted">/mo</span></div>
+          <p class="muted">Great for personal projects</p>
+          <ul class="muted">
+            <li>5k events / month</li>
+            <li>1 project</li>
+            <li>Email support</li>
+          </ul>
+          <div style="margin-top:auto"><button class="btn secondary" data-plan="starter">Get Started</button></div>
+        </div>
+
+        <div class="plan recommended">
+          <h4>Pro</h4>
+          <div class="price">$29 <span class="muted">/mo</span></div>
+          <p class="muted">For growing teams</p>
+          <ul class="muted">
+            <li>50k events / month</li>
+            <li>10 projects</li>
+            <li>Priority support</li>
+          </ul>
+          <div style="margin-top:auto"><button class="btn" data-plan="pro">Choose Pro</button></div>
+        </div>
+
+        <div class="plan">
+          <h4>Enterprise</h4>
+          <div class="price">Custom</div>
+          <p class="muted">Scale without limits</p>
+          <ul class="muted">
+            <li>Unlimited events</li>
+            <li>Unlimited projects</li>
+            <li>Dedicated support</li>
+          </ul>
+          <div style="margin-top:auto"><button class="btn secondary" data-plan="enterprise">Contact Sales</button></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="reveal">
+      <h2>Contact & Support</h2>
+      <p class="muted" style="text-align:center;margin-top:8px">Questions? Drop us a message and we'll get back within 24 hours.</p>
+
+      <div class="contact-grid container">
+        <form id="contactForm" class="card" novalidate>
+          <input id="name" name="name" placeholder="Your name" required aria-label="Your name">
+          <input id="email" name="email" type="email" placeholder="Email address" required aria-label="Email address">
+          <textarea id="message" name="message" placeholder="How can we help?" required aria-label="Message"></textarea>
+
+          <div style="display:flex;gap:10px;align-items:center">
+            <button type="submit" class="btn">Send Message</button>
+            <div id="formMsg" class="muted form-status" aria-live="polite"></div>
+          </div>
+        </form>
+
+        <aside class="card">
+          <h3>Office</h3>
+          <p class="muted">123 Product Lane<br/>Karachi, Pakistan</p>
+          <div style="margin-top:12px">
+            <strong>Email</strong>
+            <p class="muted">support@astra.example</p>
+            <strong>Phone</strong>
+            <p class="muted">+92 300 0000000</p>
+          </div>
+          <div style="margin-top:12px">
+            <strong>Follow</strong>
+            <p class="muted">Twitter • LinkedIn • GitHub</p>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal confirmation -->
+  <div id="modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="modal">
+      <h3 id="modalTitle">Thanks!</h3>
+      <p id="modalBody" class="muted">We've received your message and will get back soon.</p>
+      <div style="text-align:right;margin-top:12px">
+        <button class="btn" id="closeModal">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Back to top -->
+  <button id="topBtn" title="Back to top" style="position:fixed;right:18px;bottom:18px;padding:10px;border-radius:999px;border:0;background:var(--accent);color:white;display:none;z-index:80">↑</button>
+
+  <footer>
+    <div class="container">
+      <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+        <div>© <span id="year"></span> Astra — Product analytics</div>
+        <div class="muted">Built with care • Privacy • Terms</div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Utilities
+    const q = s => document.querySelector(s);
+    const qa = s => Array.from(document.querySelectorAll(s));
+
+    // Theme toggle (persist)
+    const themeToggle = q('#themeToggle');
+    const savedTheme = localStorage.getItem('site-theme');
+    function applyTheme(theme){
+      if(theme === 'light') document.body.classList.add('light'); else document.body.classList.remove('light');
+      localStorage.setItem('site-theme', theme);
+      themeToggle.textContent = theme === 'light' ? '☀️' : '🌙';
+    }
+    applyTheme(savedTheme || 'light');
+    themeToggle.addEventListener('click', ()=> applyTheme(document.body.classList.contains('light') ? 'dark' : 'light'));
+
+    // Mobile menu
+    const menuBtn = q('#menuBtn'), mobileNav = q('#mobileNav');
+    menuBtn.addEventListener('click', ()=> {
+      mobileNav.style.display = mobileNav.style.display === 'block' ? 'none' : 'block';
+    });
+
+    // Smooth scroll for anchor links
+    qa('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        const href = a.getAttribute('href');
+        if(!href || href === '#') return;
+        e.preventDefault();
+        mobileNav.style.display = 'none';
+        const el = document.querySelector(href);
+        if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    // Reveal on scroll
+    const reveals = qa('.reveal');
+    const io = new IntersectionObserver((entries, obs) => {
+      entries.forEach(en => {
+        if(en.isIntersecting){ en.target.classList.add('show'); en.target.classList.add('reveal-show'); en.target.classList.add('show'); en.target.classList.add('reveal-visible'); en.target.classList.add('visible'); en.target.classList.add('visible'); en.target.classList.add('reveal'); en.target.classList.add('show'); }
+      });
+    }, {threshold:0.12});
+    reveals.forEach(r => { r.classList.add('reveal'); io.observe(r); });
+
+    // Newsletter validation
+    function isValidEmail(email){
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim());
+    }
+    q('#subscribeBtn').addEventListener('click', () => {
+      const emailEls = q('#newsletterEmail');
+      const email = emailEls.value || '';
+      if(!isValidEmail(email)){
+        q('#newsletterNote').textContent = 'Please enter a valid email.';
+        setTimeout(()=> q('#newsletterNote').textContent = 'No spam — unsubscribe anytime.', 3000);
+        return;
+      }
+      q('#newsletterNote').textContent = 'Subscribed — check your inbox!';
+      emailEls.value = '';
+      // simulate API...
+      setTimeout(()=> q('#newsletterNote').textContent = 'No spam — unsubscribe anytime.', 4000);
+    });
+
+    // Contact form validation & modal confirmation
+    const contactForm = q('#contactForm');
+    const formMsg = q('#formMsg');
+    const modal = q('#modal');
+    const closeModalBtn = q('#closeModal');
+    contactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = q('#name').value.trim();
+      const email = q('#email').value.trim();
+      const msg = q('#message').value.trim();
+
+      if(!name){ formMsg.textContent = 'Please enter your name.'; return; }
+      if(!isValidEmail(email)){ formMsg.textContent = 'Please enter a valid email.'; return; }
+      if(msg.length < 10){ formMsg.textContent = 'Message should be at least 10 characters.'; return; }
+
+      formMsg.textContent = 'Sending...';
+      // simulate send
+      setTimeout(() => {
+        formMsg.textContent = '';
+        openModal('Thanks! We received your message. We will reply within 24 hours.');
+        contactForm.reset();
+      }, 900);
+    });
+
+    function openModal(text){
+      q('#modalBody').textContent = text;
+      modal.classList.add('open');
+      modal.setAttribute('aria-hidden','false');
+      document.body.style.overflow = 'hidden';
+    }
+    function closeModal(){
+      modal.classList.remove('open');
+      modal.setAttribute('aria-hidden','true');
+      document.body.style.overflow = '';
+    }
+    closeModalBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => { if(e.target === modal) closeModal(); });
+    document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeModal(); });
+
+    // Pricing CTAs simulation
+    qa('[data-plan]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = btn.dataset.plan;
+        openModal(`You chose the ${p} plan — checkout simulation.`);
+      });
+    });
+
+    // CTA buttons
+    q('#ctaTrial').addEventListener('click', ()=> { openModal('Trial started — check your inbox (simulation).'); });
+    q('#ctaDemo').addEventListener('click', ()=> { openModal('Thanks — our team will contact you to schedule a demo.'); });
+    q('#trialBtn2').addEventListener('click', ()=> { openModal('Trial activated — enjoy!'); });
+
+    // Back-to-top
+    const topBtn = q('#topBtn');
+    window.addEventListener('scroll', ()=> {
+      topBtn.style.display = window.scrollY > 500 ? 'block' : 'none';
+    });
+    topBtn.addEventListener('click', ()=> window.scrollTo({top:0,behavior:'smooth'}));
+
+    // Show year
+    q('#year').textContent = new Date().getFullYear();
+
+    // Accessibility: close mobile nav on outside click
+    document.addEventListener('click', (e) => {
+      if(mobileNav.style.display === 'block' && !mobileNav.contains(e.target) && e.target !== menuBtn) {
+        mobileNav.style.display = 'none';
+      }
+    });
+  </script>
+</body>
+</html>
